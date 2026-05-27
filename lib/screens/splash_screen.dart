@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -17,16 +18,32 @@ class _SplashScreenState
   void initState() {
     super.initState();
 
-    Timer(
-      Duration(seconds: 3),
-          () {
+    checkUser();
+  }
 
-        Navigator.pushReplacementNamed(
-          context,
-          '/login',
-        );
-      },
+  Future<void> checkUser() async {
+
+    await Future.delayed(
+      Duration(seconds: 3),
     );
+
+    final user =
+        FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+
+      Navigator.pushReplacementNamed(
+        context,
+        '/home',
+      );
+
+    } else {
+
+      Navigator.pushReplacementNamed(
+        context,
+        '/login',
+      );
+    }
   }
 
   @override
@@ -59,7 +76,8 @@ class _SplashScreenState
 
               style: TextStyle(
                 fontSize: 34,
-                fontWeight: FontWeight.bold,
+                fontWeight:
+                FontWeight.bold,
                 color: Colors.black87,
                 letterSpacing: 1,
               ),
@@ -83,7 +101,8 @@ class _SplashScreenState
               width: 28,
               height: 28,
 
-              child: CircularProgressIndicator(
+              child:
+              CircularProgressIndicator(
                 strokeWidth: 3,
                 color: Colors.black87,
               ),
